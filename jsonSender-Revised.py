@@ -32,13 +32,15 @@ y = json.dumps(x)
 s.sendto(y.encode('utf-8'), server_address)
 i = 1
 while i<=3:
-            buf, address = d.recvfrom(port)
-            if not len(buf):
-                        break
-            g=json.loads(buf)
-            if y["type"] == 6:
-                        break
-            break
+   buf, address = d.recvfrom(port)
+   if not len(buf):
+      break
+   g=json.loads(buf)
+   if g["type"] == 6:
+      break
+   elif g["type"] == 7||g["type"] == 8:
+      #repack data from args into x here
+   
 
 s.shutdown(1)
 
