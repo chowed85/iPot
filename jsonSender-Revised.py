@@ -34,12 +34,22 @@ i = 1
 while i<=3:
    buf, address = d.recvfrom(port)
    if not len(buf):
-      break
-   g=json.loads(buf)
-   if g["type"] == 6:
-      break
-   elif g["type"] == 7||g["type"] == 8:
-      #repack data from args into x here
+      time.delay(10)
+      buf, address = d.recvfrom(port)
+   if not len(buf):  
+   else:
+      g=json.loads(buf)
+      if g["type"] == 6:
+         break
+      elif g["type"] == 7 or g["type"] == 8:
+         #repack data from args into x here
+      else:
+         s.sendto(y.encode('utf-8'), server_address)
+   i+=i
+
+if i==4:
+   print("there was a type " + g["type"] + "error with the packet")
+
    
 
 s.shutdown(1)
