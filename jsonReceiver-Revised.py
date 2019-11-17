@@ -54,14 +54,14 @@ while True:
         else:
             respond(6)        
     elif ptype==3:
-        if wvalue == null or tvalue == null or time == null or name ==null:
+        if wvalue == null or tvalue == null or time == null:
             respond(7)
         elif lowtemp> tvalue > highvalue or Wmin>wvalue>Wmax:
             respond(8)
         else:
             respond(6)
     elif ptype==4:
-        if wvalue == null or tvalue == null or time == null or name ==null:
+        if wvalue == null or tvalue == null or time == null:
             respond(7)
         elif lowtemp> tvalue > highvalue or Wmin>wvalue>Wmax:
             respond(8)        
