@@ -2,6 +2,8 @@
 
 import socket, sys, time, json
 
+exit = False
+
 host = sys.argv[1]
 textport = sys.argv[2]
 ptype = sys.argv[3]
@@ -15,6 +17,10 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 port = int(textport)
 server_address = (host, port)
 
+d= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+p = 1007
+sa = ('localhost', p)
+d.bind(sa)
 
 x = {
    "type": ptype,
@@ -30,26 +36,16 @@ y = json.dumps(x)
 
 #    s.sendall(data.encode('utf-8'))
 s.sendto(y.encode('utf-8'), server_address)
-i = 1
-while i<=3:
+
+while not exit:
    buf, address = d.recvfrom(port)
    if not len(buf):
-      time.delay(10)
-      buf, address = d.recvfrom(port)
-   if not len(buf):  
-   else:
-      g=json.loads(buf)
-      if g["type"] == 6:
-         break
-      elif g["type"] == 7 or g["type"] == 8:
-         #repack data from args into x here
-      else:
-         s.sendto(y.encode('utf-8'), server_address)
-   i+=i
-
-if i==4:
-   print("there was a type " + g["type"] + "error with the packet")
-
+      break
+   buf = int(buf)
+   print (buf)
+   exit = true
+   
+return buf
    
 
 s.shutdown(1)
