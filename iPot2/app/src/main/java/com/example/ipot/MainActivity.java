@@ -10,7 +10,9 @@ import androidx.appcompat.app.AppCompatActivity;
 public class MainActivity extends AppCompatActivity {
 
     private Button initPot;
-    Button fetchData;
+    private Button fetchData;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +28,26 @@ public class MainActivity extends AppCompatActivity {
                 openSetPointActivity();
             }
         });
+
+        fetchData = (Button) findViewById(R.id.plantData);
+
+        fetchData.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openRetrieveActivity();
+            }
+        });
     }
 
     public void openSetPointActivity(){
-        Intent intent = new Intent(this, SetPointPot.class);
-        startActivity(intent);
+        Intent intentsetpot = new Intent(this, SetPointPot.class);
+        intentsetpot.putExtra("message","This is here because new pot.");
+        startActivity(intentsetpot);
+    }
+
+    public void openRetrieveActivity(){
+        Intent intentretdata = new Intent(this, RetrievePotData.class);
+        intentretdata.putExtra("message","This is here because data is requested.");
+        startActivity(intentretdata);
     }
 }

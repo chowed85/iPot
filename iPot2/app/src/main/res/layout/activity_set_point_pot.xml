@@ -54,7 +54,6 @@
         android:ems="10"
         android:hint="Enter a name for iPot"
         android:inputType="textPersonName"
-        android:text="Plant Name"
         app:layout_constraintBottom_toTopOf="@+id/setMoist"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

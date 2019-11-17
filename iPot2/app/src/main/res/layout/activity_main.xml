@@ -20,7 +20,7 @@
         android:layout_marginLeft="152dp"
         android:layout_marginEnd="154dp"
         android:layout_marginRight="154dp"
-        android:layout_marginBottom="375dp"
+        android:layout_marginBottom="249dp"
         android:text="Initialize iPot"
         android:textAllCaps="false"
         android:textColor="#FF0000"
@@ -58,5 +58,21 @@
         app:layout_constraintVertical_bias="0.247"
         tools:text="Request iPot Data"
         tools:visibility="visible" />
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="204dp"
+        android:layout_height="383dp"
+        android:layout_above="@+id/setPoint"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginStart="106dp"
+        android:layout_marginLeft="106dp"
+        android:layout_marginEnd="101dp"
+        android:layout_marginRight="101dp"
+        android:layout_marginBottom="15dp"
+        app:srcCompat="@drawable/plant_background" />
 
 </RelativeLayout>
