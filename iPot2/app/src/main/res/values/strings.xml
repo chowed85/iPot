@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">iPot Plant System</string>
+    <string name="app_name">iPOT</string>
     <string name="title_activity_set_point">SetPointActivity</string>
 </resources>
