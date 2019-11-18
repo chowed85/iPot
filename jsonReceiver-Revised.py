@@ -1,6 +1,6 @@
 import socket, sys, time,json
 #control variables
-Wmin = 425
+Wmin = 700
 hightemp = 60
 lowtemp = -10
 Wmax = 0
@@ -40,44 +40,44 @@ while True:
     name = y['name']
     if ptype == 1:
         #pot creation
-        if wvalue == null or tvalue == null or time == null or name ==null:
+        if wvalue == None or tvalue == None or time == None or name ==None:
             respond(7)
         if wvalue <Wmin or time < 0:
             respond(8)
         else:
             respond(6)
     elif ptype == 2:
-        if name == null:
+        if name == None:
             respond(7)
         #have if statment for if name is not in database
         #   respond(8)
         else:
             respond(6)        
     elif ptype==3:
-        if wvalue == null or tvalue == null or time == null or name ==null:
+        if wvalue == None or tvalue == None or time == None or name ==None:
             respond(7)
-        elif lowtemp> tvalue > highvalue or Wmin>wvalue>Wmax:
+        elif lowtemp> tvalue or tvalue > highvalue or wvalue<Wmax or wvalue>Wmin:
             respond(8)
         else:
             respond(6)
     elif ptype==4:
-        if wvalue == null or tvalue == null or time == null or name ==null:
+        if wvalue == None or tvalue == None or time == None or name ==None:
             respond(7)
-        elif lowtemp> tvalue > highvalue or Wmin>wvalue>Wmax:
+        elif lowtemp> tvalue or tvalue > highvalue or wvalue<Wmax or wvalue>Wmin:
             respond(8)        
         else:
             respond(6)
     elif ptype == 5:
-        if wvalue == null or tvalue == null or time == null or name ==null:
+        if wvalue == None or tvalue == None or time == None or name ==None:
             respond(7)
-        elif lowtemp> tvalue > highvalue or Wmin>wvalue>Wmax:
+        elif lowtemp> tvalue or tvalue > highvalue or wvalue<Wmax or wvalue>Wmin:
             respond(8)        
         else:
             respond(6)
     else:
         respond(7)
     if dataValid:
-        print("type: %s, humidity: %s, temp: %s, time: %s, name: %s" ptype, wvalue, tvalue, time, name)
+        print("type: %s, humidity: %s, temp: %s, time: %s, name: %s",ptype, wvalue, tvalue, time, name)
     
         
         
