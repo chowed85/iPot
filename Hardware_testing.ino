@@ -7,6 +7,9 @@ void setup() {
 
   Serial.begin(9600);
   pinMode(2, OUTPUT);
+
+  humval = analogRead(A0);
+  
 }
 
 
@@ -70,24 +73,16 @@ private int testPumpoffsim(){
 
 //sensor goes from dry soil to damp soil 
 private boolean testValuedecrease(int humidity){
-  if (humVal == null){
-    humVal = humidity; 
-  }else{
-    if (humidity < humVal){
-      return true; 
-    }
+  if (humidity < humVal){
+    return true; 
   }
   return false;
 }
 
 //when sensor goes from soil to air
 private boolean testValueincrease(int humidity){
-  if (humVal == null){
-    humVal = humidity; 
-  }else{
-    if (humidity > humVal){
-      return true; 
-    }
+  if (humidity > humVal){
+    return true; 
   }
   return false;
 }
