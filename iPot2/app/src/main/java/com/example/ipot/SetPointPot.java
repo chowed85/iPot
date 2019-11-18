@@ -7,6 +7,9 @@ import android.widget.EditText;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.InputStreamReader;
@@ -25,7 +28,7 @@ public class SetPointPot extends AppCompatActivity {
     InetAddress IPADDRESS;
     String myIP = "192.168.0.21";
     Button CREATE;
-    String NEWPOT;//Packet sent to create new pot
+    JSONObject NEWPOT;//Packet sent to create new pot
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +55,18 @@ public class SetPointPot extends AppCompatActivity {
         CREATE.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-              NEWPOT = "Message start:" + name + " " + moisture + " " + interval;
+              NEWPOT = new JSONObject();
+              try{
+                    NEWPOT.put("PotName", name);
+                    NEWPOT.put("MoistureSet", moisture);
+                    NEWPOT.put("TimeInterval", interval);
 
-              Thread potSender = new Thread(new Sender(IPADDRESS,portnum, NEWPOT));
+                  Thread potSender = new Thread(new Sender(IPADDRESS,portnum, NEWPOT.toString()));
+                  potSender.start();
+              }catch (JSONException e){
+                    e.printStackTrace();
+                }
+
             }
         });
 
@@ -107,5 +119,4 @@ public class SetPointPot extends AppCompatActivity {
 
         }//end run
     }//end Sender class
-
 }//end setPointPot class
