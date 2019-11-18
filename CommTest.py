@@ -22,4 +22,14 @@ class TestCommProtocol(unittest.TestCase):
 
     def test_type_5_scucess(self):
         result = jsonSenderMock('localhost',1006,5,500,26,80,word)
-        self.assertEqual(result, 6) 
+        self.assertEqual(result, 6)
+        
+    def test_type_7_error(self):
+        result = jsonSenderMock('localhost',1006,5,None,None,80,word)
+        self.assertEqual(result, 7)
+    def test_type_7_error(self):
+        result = jsonSenderMock('localhost',1006,5,500,-800000,80,word)
+        self.assertEqual(result, 7)  
+    
+    
+    
