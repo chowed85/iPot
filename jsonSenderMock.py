@@ -44,9 +44,9 @@ while not exit:
    buf = int(buf)
    print (buf)
    exit = true
-   
-return buf
-   
 
 s.shutdown(1)
+d.shutdown(1)
+return buf
+  
 
