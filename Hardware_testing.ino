@@ -8,7 +8,6 @@ void setup() {
   Serial.begin(9600);
   pinMode(2, OUTPUT);
 
-  humval = analogRead(A0);
   
 }
 
@@ -19,12 +18,6 @@ void setup() {
 void loop() {
 
   // read the input on analog pin 0:
-
-  float sensorValue = analogRead(A1)*5;
-
-  sensorValue = sensorValue/1024;
-  sensorValue = sensorValue - 0.5;
-  sensorValue = sensorValue / 0.01;
   
   
   // print out the value you read:
@@ -34,24 +27,51 @@ void loop() {
   
 
   //method testing
-  //Serial.println(testAir(humidity));
-  //humidity = testPumponsim();
-  //humidity = testPumpoffsim();
-  //Serial.println(testValuedecrease(humidity)); 
-  //Serial.println(testValueincrease(humidity));
-
-  Serial.println(humidity);
+  if(testAir(humidity)){
+	Serial.println('PASS: The humidity is within range of 540 - 560 which is the expected value');
+	Serial.println('The value is: ' + humidity);
+  }
   
-  if(humidity > 525){
-    digitalWrite(2,HIGH);
+  else{
+	Serial.println('FAIL: The humidity is not within range of 540 - 560 which is the expected value');
+	Serial.println('The value is: ' + humidity);
   }
-  //delay(10000); 
+  
+  delay(10000);
+  
+  humVal = analogRead(A0)
 
-  if(humidity < 400){
-    digitalWrite(2,LOW);
+  Serial.println('The value of the soil without water is: ' + humVal);
+  
+  delay(10000);
+  
+  humidity = analogRead(A0)
+  
+  if(testValueDecrease(humidity))
+	Serial.println('PASS: The humidity value is less than before');
+	Serial.println('The value is: ' + humidity);
   }
+  
+  else{
+	Serial.println('FAIL: The humidity value is not less than before');
+	Serial.println('The value is: ' + humidity);  
+  }
+  
+  
+  delay(10000);
+  
+  if(testValueIncrease(humidity))
+	Serial.println('PASS: The humidity value is greater than the soil');
+	Serial.println('The value is: ' + humidity);
+  }
+  
+  else{
+	Serial.println('FAIL: The humidity value is not greater than the soil');
+	Serial.println('The value is: ' + humidity);  
+  }
+  
 
-  delay(100); 
+  delay(10000); 
 }
 
 //testing dry air
@@ -61,18 +81,8 @@ private boolean testAir(int humidity){
   }
 }
 
-//simulated reading of 600
-private int testPumponsim(){
-  return 600;
-}
-
-//simulated reading of 350
-private int testPumpoffsim(){
-  return 350;
-}
-
 //sensor goes from dry soil to damp soil 
-private boolean testValuedecrease(int humidity){
+private boolean testValueDecrease(int humidity){
   if (humidity < humVal){
     return true; 
   }
@@ -80,7 +90,7 @@ private boolean testValuedecrease(int humidity){
 }
 
 //when sensor goes from soil to air
-private boolean testValueincrease(int humidity){
+private boolean testValuIncrease(int humidity){
   if (humidity > humVal){
     return true; 
   }
