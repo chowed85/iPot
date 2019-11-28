@@ -10,12 +10,11 @@ lowTemp = -10
 wMax = 0
 dataValid = False
 
-textport = sys.argv[1]
 
 
 #setting up input socket
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-port = int(textport)
+port = 1006
 server_address = ('localhost', port)
 s.bind(server_address)
 
@@ -72,9 +71,9 @@ def getAllData(cursor):
 def deleteRow(cursor, name):
     cursor.execute("DELETE FROM test WHERE name like '" + name + "'")
 
-def main():
+while True:
     #connection for database
-    conn = create_connection(r"/Users/owner/Documents/testDb.db")
+    conn = create_connection(r"/home/pi/Documents/testDb.db")
     cursorObj = conn.cursor()
     
     print ("Waiting to receive on port %d : press Ctrl-C or Ctrl-Break to stop " % port)
@@ -88,9 +87,9 @@ def main():
     pType = y['type']
     wValue = y['humidity']
     tValue = y['temp']
-    time = y['time']
+    date = y['time']
     name = y['name']
-    
+    print(pType)
     #pot creation checking for type 7 or type 8 errors
     if pType == 1:
         if wValue == None or time == None or name ==None:
@@ -111,12 +110,15 @@ def main():
             
     #Stored sensor log from database incomplete packet checking for type 7 or type 8 errors
     elif pType==3 or pType ==4 or pType == 5:
+        print("test")
         if wValue == None or tValue == None or time == None or name ==None:
-            addData(cursorObj, name, wValue, tValue ,date)
+            
             respond(7)
         elif lowTemp> tValue or tValue > highTemp or wValue<wMax or wValue>wMin:
             respond(8)
         else:
+            addData(cursorObj, name, wValue, tValue ,date)
+            print(getAllData(cursorObj))
             respond(6)
     #anything else clause
     else:
@@ -124,8 +126,6 @@ def main():
     if dataValid:
         print("type: %s, humidity: %s, temp: %s, time: %s, name: %s",pType, wValue, tValue, time, name)
         dataValid = false
-    
+    conn.commit()
 s.shutdown(1)
 
-if __name__ == '__main__':
-    main()
