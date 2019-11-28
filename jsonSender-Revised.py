@@ -2,25 +2,25 @@
 
 import socket, sys, time, json
 
-host = sys.argv[1]
-ptype = sys.argv[2]
-wvalue = sys.argv[3]
-tvalue = sys.argv[4]
-time = sys.argv[5]
-name = sys.argv[6]
+
+ptype = sys.argv[1]
+wvalue = sys.argv[2]
+tvalue = sys.argv[3]
+time = sys.argv[4]
+name = sys.argv[5]
 
 
 
 #setting up input socket
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-port = int(textport)
-server_address = (host, 1006)
+port = 1006
+server_address = ('localhost', port)
 
 
 #setting up output socket
 d= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 p = 1007
-sa = (host, p)
+sa = ('localhost', p)
 d.bind(sa)
 
 x = {
@@ -46,10 +46,10 @@ while i<=3:
    if not len(buf):
       i = i+1
    else:
-      g=json.loads(buf)
-      if g["type"] == 6:
+      g = int(buf)
+      if g== 6:
          break
-      elif g["type"] == 7 or g["type"] == 8:
+      elif g == 7 or g== 8:
          x = {
             "type": ptype,
             "humidity": wvalue,
@@ -67,11 +67,10 @@ while i<=3:
 
 
 if i==4:
-   print("there was a type " + g["type"] + "error with the packet")
+   print(g)
 else:
    print("Packet Successful")
 
    
 
-d.shutdown(1)
 d.close()
