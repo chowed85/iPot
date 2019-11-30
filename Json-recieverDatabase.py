@@ -1,6 +1,7 @@
 import socket, sys, time,json
 import sqlite3
 import datetime
+import jsonSender-Revised
 from sqlite3 import Error
 
 #control variables used for configuration
@@ -67,6 +68,14 @@ def getAllData(cursor):
     data = cursorObj.fetchall()
     print(data)
 
+#get set of data from database
+def getSetOfData(cursor, name):
+    sql = "SELECT * FROM test WHERE name = %s"
+    adr = (name, )
+    cursorObj.execute(sql,adr)
+    data = cursorObj.fetchall()
+    print(data)
+    
 #deletes specific rows of data from the database 
 def deleteRow(cursor, name):
     cursor.execute("DELETE FROM test WHERE name like '" + name + "'")
@@ -98,6 +107,7 @@ while True:
             respond(8)
         else:
             respond(6)
+            jsonSender-Revised(ptype,wvalue,tvalue,date,name)
     
     #Request for info on a Pot checking for type 7 or type 8 errors
     elif pType == 2:
@@ -106,7 +116,9 @@ while True:
         #have if statment for if name is not in database
         #   respond(8)
         else:
-            respond(6) 
+            respond(6)
+            getSetOfData(cursorObj,name)
+            
             
     #Stored sensor log from database incomplete packet checking for type 7 or type 8 errors
     elif pType==3 or pType ==4 or pType == 5:
@@ -126,6 +138,6 @@ while True:
     if dataValid:
         print("type: %s, humidity: %s, temp: %s, time: %s, name: %s",pType, wValue, tValue, time, name)
         dataValid = false
-    conn.commit()
+        conn.commit()
 s.shutdown(1)
 
