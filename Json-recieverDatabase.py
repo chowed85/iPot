@@ -11,22 +11,34 @@ lowTemp = -10
 wMax = 0
 dataValid = False
 
-
+appIP = sys.argv[1]
+backIP = sys.argv[2]
 
 #setting up input socket
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 port = 1006
-server_address = ('localhost', port)
+server_address = (appIP, port)
 s.bind(server_address)
 
 #setting up output socket
 d= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 p = 1007
-sa = ('localhost', p)
+sa = (appIP, p)
+
+#setting up input socket for app
+J = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+port = 1008
+server_address = (backIP, port)
+s.bind(server_address)
+
+#setting up output socket for pi
+K= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+p = 1009
+sa = (backIP, p)
 
 
 #method for sending response to sender program, acktype is the int code used for responses
-def respond(acktype):
+def respond(acktype,socket):
     data = str(acktype)
     d.sendto(data.encode('utf-8'), sa)
     if acktype == 6:
@@ -69,6 +81,7 @@ def getAllData(cursor):
     print(data)
 
 #get set of data from database
+#THIS NEEDS WORK
 def getSetOfData(cursor, name):
     sql = "SELECT * FROM test WHERE name = %s"
     adr = (name, )
