@@ -2,25 +2,38 @@
 
 import socket, sys, time, json
 
+destIP = sys.argv[1] #IP address of destination
+toDevice = sys.argv[2] #indicates what device packet is being sent to 1 for App, 2 for database, 3 for pi
+ptype = sys.argv[3]
+wvalue = sys.argv[4]
+tvalue = sys.argv[5]
+time = sys.argv[6]
+name = sys.argv[7]
 
-ptype = sys.argv[1]
-wvalue = sys.argv[2]
-tvalue = sys.argv[3]
-time = sys.argv[4]
-name = sys.argv[5]
+#port listing
+#1006: app to database
+#1007: database to app
+#1008: backend to database
+#1009: database to back end 
 
+if wvalue == 1:
+   outPort = 1007
+   inPort =  1006
+elif wvalue = 2:
+   outPort = 1009
+   inPort = 1008
+else:
+   outPort = 1008
+   inPort = 1009
+
+#setting up output socket
+s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+server_address = (destIP, outPort)
 
 
 #setting up input socket
-s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-port = 1006
-server_address = ('localhost', port)
-
-
-#setting up output socket
 d= socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-p = 1007
-sa = ('localhost', p)
+sa = (destIP, inPort)
 d.bind(sa)
 
 x = {
