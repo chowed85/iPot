@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RetrievePotData"></activity>
+        <activity android:name=".RetrievePotData"/>
         <activity android:name=".SetPointPot" />
         <activity android:name=".MainActivity">
             <intent-filter>

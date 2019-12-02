@@ -27,11 +27,11 @@ public class SetPointPot extends AppCompatActivity {
     DatagramSocket socket = null;
 
 
-    int portnum = 8008;
+    int portnum = 1006;
     InetAddress IPADDRESS;
     //    String myIP = "192.168.43.77";
     //String myIP = "192.168.43.32";
-    String myIP = "192.168.1.101";
+    String myIP = "192.168.43.77";
 
 
     Button CREATE;
@@ -95,7 +95,7 @@ public class SetPointPot extends AppCompatActivity {
             try {
                 NEWPOT.put("type", 1);
                 NEWPOT.put("humidity", moisture);
-                NEWPOT.put("temp", null);
+                NEWPOT.put("temp", 40);
                 NEWPOT.put("time", interval);
                 NEWPOT.put("name", name);
                 String NewPot1 = NEWPOT.toString();
