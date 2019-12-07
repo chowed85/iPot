@@ -1,7 +1,5 @@
 package com.example.ipot;
 
-import android.annotation.SuppressLint;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -12,30 +10,22 @@ import androidx.appcompat.app.AppCompatActivity;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
-import java.net.DatagramPacket;
-import java.net.DatagramSocket;
 import java.net.InetAddress;
-import java.net.SocketException;
 import java.net.UnknownHostException;
 
-
+//Code Author: Zubaer Ahmed
 public class SetPointPot extends AppCompatActivity {
 
     String name, moisture, interval;
     EditText plantName, Sens, Tint;
-    DatagramSocket socket = null;
 
 
-    int portnum = 1006;
     InetAddress IPADDRESS;
-    //    String myIP = "192.168.43.77";
-    //String myIP = "192.168.43.32";
-    String myIP = "192.168.43.77";
 
+    String myIP = "192.168.43.77"; //IP of the Pi being sent the set point
 
-    Button CREATE;
-    JSONObject NEWPOT;//Packet sent to create new pot
+    Button CREATE; //iPot creation button
+    JSONObject NEWPOT;//JSON object to hold the set point information
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,35 +42,14 @@ public class SetPointPot extends AppCompatActivity {
         interval = Tint.getText().toString();
 
         CREATE.setOnClickListener(buttonConnectOnClick);
-        //udpClientHandler = new UdpClientHandler(this);
-    }
-/*
-        //Create an IPAddress of the Front end RPi
-        try{
-            IPADDRESS = InetAddress.getByName(myIP);
 
-        }catch(UnknownHostException e){
-            e.printStackTrace();
-        }
-        */
+    }
+
 
     View.OnClickListener buttonConnectOnClick = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
-            Sender setpointsend = new Sender();
-            setpointsend.execute();
-
-        }
-    };
-
-    class Sender extends AsyncTask<Void, Void, Void> {
-
-        @SuppressLint("WrongThread")
-        @Override
-        protected Void doInBackground(Void... voids) {
-
-            //Create an IPAddress of the Front end RPi
             try {
                 IPADDRESS = InetAddress.getByName(myIP);
 
@@ -98,41 +67,15 @@ public class SetPointPot extends AppCompatActivity {
                 NEWPOT.put("temp", 40);
                 NEWPOT.put("time", interval);
                 NEWPOT.put("name", name);
-                String NewPot1 = NEWPOT.toString();
-                System.out.println("The message sent is:" + NewPot1);
-                byte[] data = NewPot1.getBytes();
-                System.out.println("The data byte array is created");
+                String initPot = NEWPOT.toString();
+                System.out.println("The message sent is:" + initPot);
 
-                //while (true) {
+                Thread testSender = new Thread(new Sender(IPADDRESS, 1006, initPot)); //Create a new thread to send a set point
+                testSender.start();//Begin the Sender thread
 
-                    //DatagramSocket socket = null;
-                    try {
-                        socket = new DatagramSocket(8008);
-                        System.out.println("socket has been created");
-
-                    } catch (SocketException e) {
-                        e.printStackTrace();
-                        System.out.println("failed to create socket");
-                    }
-
-                    DatagramPacket packet = new DatagramPacket(data, data.length, IPADDRESS, portnum);
-                System.out.println("dpacket has been created");
-                    try {
-                        System.out.println("we have entered in the send packet trycatch");
-                        socket.send(packet);
-                        System.out.println("send done");
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-            socket.close();
-
-              //  }//end while(true)
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-           // socket.close();
-            return null;
         }
-
-    }//end setPointPot class
+    };
 }

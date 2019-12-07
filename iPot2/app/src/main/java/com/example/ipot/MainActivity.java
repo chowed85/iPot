@@ -7,11 +7,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+//Code Author: Zubaer Ahmed
+
 public class MainActivity extends AppCompatActivity {
 
     private Button initPot;
     private Button fetchData;
-
 
 
     @Override
